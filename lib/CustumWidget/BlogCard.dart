@@ -15,7 +15,7 @@ class BlogCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height*0.5,
+      height: MediaQuery.of(context).size.height,
       padding: EdgeInsets.symmetric(horizontal: 13, vertical: 8),
       width: MediaQuery.of(context).size.width,
       child: Card(

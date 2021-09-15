@@ -41,6 +41,7 @@ class _RecipeCategoriesState extends State<RecipeCategories> {
     return data!.length > 0
         ? ListView(
          scrollDirection: Axis.horizontal,
+         padding: EdgeInsets.only(left: 10),
             children: data
                 !.map((item) => Column(
                       children: <Widget>[

@@ -7,7 +7,7 @@ import 'package:logger/logger.dart';
 class NetworkHandler {
   //static String baseurl = "http://192.168.0.28:5000";
   //var baseurl = Uri.parse("http://192.168.8.108:5555");
-  var baseurl = Uri.parse("http://192.168.8.108:5555");
+  var baseurl = Uri.parse("http://192.168.110.208:5555");
 
   //192.168.8.108
   //192.168.3.108

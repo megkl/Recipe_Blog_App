@@ -38,6 +38,7 @@ dependencies:
   intl:
   carousel_slider: ^2.0.0
   material_floating_search_bar: ^0.3.4
+  carousel_pro: ^1.0.0
 
 dev_dependencies:
   flutter_test:
