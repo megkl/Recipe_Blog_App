@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_blog_app/CustumWidget/BlogCard.dart';
+import 'package:recipe_blog_app/CustumWidget/BlogPerCategoryCard.dart';
 import 'package:recipe_blog_app/Model/SuperModel.dart';
 import 'package:recipe_blog_app/Model/addBlogModels.dart';
 import 'package:recipe_blog_app/screens/Blogs/blog.dart';
@@ -19,7 +20,7 @@ class _CategoryRecipesState extends State<CategoryRecipes> {
    NetworkHandler networkHandler = NetworkHandler();
   SuperModel superModel = SuperModel();
   //AddBlogModel addBlogModel = AddBlogModel(body: '', coverImage: '', duration: 0, id: '', ingredients: '', procedure: '', productTypeName: '', title: '', username: '');
-  final AddBlogModel? addBlogModel = AddBlogModel(body: '', coverImage: '', duration: 0, id: '', ingredients: '', procedure: '', productTypeName: '', title: '', username: '');
+  final AddBlogModel? addBlogModel = AddBlogModel(body: '', coverImage: '', duration: 0, id: '', ingredients: [], procedure: '', productTypeName: '', title: '', isFavourite: false, isFeatured: false, username: '');
    List<AddBlogModel?>? data = [];
   int _currentIndex = 0;
   
@@ -45,8 +46,7 @@ class _CategoryRecipesState extends State<CategoryRecipes> {
                 .map((item) => Column(
                       children: <Widget>[
                         Container(
-                          
-                          child: BlogCard(
+                          child: BlogcategoryCard(
                                 addBlogModel: item,
                                 networkHandler: networkHandler,
                               ),

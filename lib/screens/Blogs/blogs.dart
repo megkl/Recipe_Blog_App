@@ -18,7 +18,7 @@ class _RecipeBlogsState extends State<RecipeBlogs> {
    NetworkHandler networkHandler = NetworkHandler();
   SuperModel superModel = SuperModel();
   //AddBlogModel addBlogModel = AddBlogModel(body: '', coverImage: '', duration: 0, id: '', ingredients: '', procedure: '', productTypeName: '', title: '', username: '');
-  final AddBlogModel? addBlogModel = AddBlogModel(body: '', coverImage: '', duration: 0, id: '', ingredients: '', procedure: '', productTypeName: '', title: '', username: '');
+  final AddBlogModel? addBlogModel = AddBlogModel(body: '', coverImage: '', duration: 0, id: '', ingredients: [], procedure: '', productTypeName: '', title: '', isFavourite: false, isFeatured: false, username: '');
    List<AddBlogModel?>? data = [];
   int _currentIndex = 0;
   
@@ -43,7 +43,7 @@ class _RecipeBlogsState extends State<RecipeBlogs> {
           children: [
             CarouselSlider(
               options: CarouselOptions(
-                height: 500,
+                height: MediaQuery.of(context).size.height*0.5,
                 autoPlay: true,
                 enlargeCenterPage: true,
                 scrollDirection: Axis.horizontal,
@@ -58,13 +58,14 @@ class _RecipeBlogsState extends State<RecipeBlogs> {
               items: data!
                   .map(
                     (item) => Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(0.0),
                       child: Card(
                         margin: EdgeInsets.only(
                           top: 10.0,
                           //bottom: 10.0,
                         ),
-                        elevation: 4.0,
+                        elevation: 0.0,
+                        color: Colors.transparent,
                         shadowColor: Color(0xffe46b10),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
