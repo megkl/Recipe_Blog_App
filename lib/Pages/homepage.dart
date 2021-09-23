@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:recipe_blog_app/Pages/loginPage.dart';
 import 'package:recipe_blog_app/Profile/ProfileScreen.dart';
 import 'package:recipe_blog_app/screens/Blogs/addBlog.dart';
+import 'package:recipe_blog_app/screens/Blogs/allBlogs.dart';
 import 'package:recipe_blog_app/screens/homeScreen.dart';
 
 import '../apiHandler.dart';
@@ -17,8 +18,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int currentState = 0;
-  List<Widget> widgets = [HomeScreen(), ProfileScreen()];
-  List<String> titleString = ["Aunty Kat Recipe Blog", "Profile Page"];
+  List<Widget> widgets = [HomeScreen(), Blogs(url: "/product/getProducts"), Blogs(url: "/product/getProducts"), ProfileScreen(), ];
+  //List<String> titleString = ["Aunty Kat Recipe Blog","" "Profile Page"];
   final storage = FlutterSecureStorage();
   NetworkHandler networkHandler = NetworkHandler();
   String username = "";
@@ -151,11 +152,31 @@ class _HomePageState extends State<HomePage> {
                   iconSize: 40,
                 ),
                 IconButton(
+                  icon: Icon(Icons.list),
+                  color: currentState == 0 ? Colors.white : Colors.white54,
+                  onPressed: () {
+                    setState(() {
+                      currentState = 1;
+                    });
+                  },
+                  iconSize: 40,
+                ),
+                IconButton(
+                  icon: Icon(Icons.favorite),
+                  color: currentState == 0 ? Colors.white : Colors.white54,
+                  onPressed: () {
+                    setState(() {
+                      currentState = 2;
+                    });
+                  },
+                  iconSize: 40,
+                ),
+                IconButton(
                   icon: Icon(Icons.person),
                   color: currentState == 1 ? Colors.white : Colors.white54,
                   onPressed: () {
                     setState(() {
-                      currentState = 1;
+                      currentState = 3;
                     });
                   },
                   iconSize: 40,

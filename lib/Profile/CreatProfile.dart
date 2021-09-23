@@ -20,7 +20,7 @@ class _CreatProfileState extends State<CreatProfile> {
   TextEditingController _name = TextEditingController();
   TextEditingController _profession = TextEditingController();
   TextEditingController _dob = TextEditingController();
-  TextEditingController _title = TextEditingController();
+  TextEditingController _email = TextEditingController();
   TextEditingController _about = TextEditingController();
   final ImagePicker _picker = ImagePicker();
   @override
@@ -65,7 +65,7 @@ class _CreatProfileState extends State<CreatProfile> {
                     "name": _name.text,
                     "profession": _profession.text,
                     "DOB": _dob.text,
-                    "titleline": _title.text,
+                    "email": _email.text,
                     "about": _about.text,
                   };
                   var response =
@@ -99,7 +99,7 @@ class _CreatProfileState extends State<CreatProfile> {
                   width: 200,
                   height: 50,
                   decoration: BoxDecoration(
-                    color: Colors.teal,
+                    color: Color(0xffe46b10),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Center(
@@ -291,7 +291,7 @@ class _CreatProfileState extends State<CreatProfile> {
 
   Widget titleTextField() {
     return TextFormField(
-      controller: _title,
+      controller: _email,
       validator: (value) {
         if (value!.isEmpty) return "Title can't be empty";
 

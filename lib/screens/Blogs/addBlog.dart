@@ -2,14 +2,17 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recipe_blog_app/CustumWidget/OverlayCard.dart';
+import 'package:recipe_blog_app/Model/CategorySuperModel.dart';
 import 'package:recipe_blog_app/Model/addBlogModels.dart';
+import 'package:recipe_blog_app/Model/recipeType.dart';
 import 'package:recipe_blog_app/Pages/homepage.dart';
-
+import 'package:recipe_blog_app/screens/Categories/recipeType.dart';
+import 'package:http/http.dart' as http;
 import '../../apiHandler.dart';
 
 class AddBlog extends StatefulWidget {
   AddBlog({Key? key}) : super(key: key);
-
+  //final String url;
   @override
   _AddBlogState createState() => _AddBlogState();
 }
@@ -22,10 +25,42 @@ class _AddBlogState extends State<AddBlog> {
   TextEditingController _duration = TextEditingController();
   TextEditingController _ingredients = TextEditingController();
   TextEditingController _procedure = TextEditingController();
+  bool _isFeatured = false;
+  bool _isFavourite = false;
   ImagePicker _picker = ImagePicker();
   PickedFile? _imageFile;
   IconData iconphoto = Icons.image;
   NetworkHandler networkHandler = NetworkHandler();
+  CategorySuperModel categorySuperModel = CategorySuperModel();
+   List<RecipeTypeModel?>? data = [];
+  //List<RecipeTypeModel> _categoryList = [];
+  String selectedValue ="Pizza";
+  List ingredients = [];
+  String username = "";
+
+  void checkProfile() async {
+    var response = await networkHandler.get("/profile/checkProfile");
+    setState(() {
+      username = response['username'];
+    });
+  }
+void getCategories() async {
+    var response = await networkHandler.get("/productType/getProductType");
+    categorySuperModel = CategorySuperModel.fromJson(response);
+    setState(() {
+      data = categorySuperModel.data;
+      print(data);
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getCategories();
+    checkProfile();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,15 +105,50 @@ class _AddBlogState extends State<AddBlog> {
             SizedBox(height: 20),
             recipeTypeTextField(),
             SizedBox(height: 20),
-            ingredientsTextField(),
-            SizedBox(height: 20),
+            // ingredientsTextField(),
+            // SizedBox(height: 20),
             procedureTextField(),
             SizedBox(height: 20),
             durationTextField(),
             SizedBox(
               height: 20,
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                _buildFeaturesField(),
+                ButtonTheme(
+                  child: RaisedButton(
+                    child: Text('Add', style: TextStyle(color: Colors.white)),
+                    onPressed: () => _addFeatures(_ingredients.text),
+                  ),
+                )
+              ],
+            ),
+            SizedBox(height: 16),
+            GridView.count(
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              padding: EdgeInsets.all(8),
+              crossAxisCount: 3,
+              crossAxisSpacing: 4,
+              mainAxisSpacing: 4,
+              children: ingredients
+                  .map(
+                    (ingredient) => Card(
+                  color: Colors.black54,
+                  child: Center(
+                    child: Text(
+                      ingredient,
+                      style: TextStyle(color: Colors.white, fontSize: 14),
+                    ),
+                  ),
+                ),
+              )
+                  .toList(),
+            ),
             addButton(),
+
           ],
         ),
       ),
@@ -104,7 +174,7 @@ class _AddBlogState extends State<AddBlog> {
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderSide: BorderSide(
-             color: Color(0xffe46b10),
+              color: Color(0xffe46b10),
             ),
           ),
           focusedBorder: OutlineInputBorder(
@@ -161,34 +231,28 @@ class _AddBlogState extends State<AddBlog> {
   }
 
   Widget recipeTypeTextField() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 10,
-      ),
-      child: TextFormField(
-        controller: _recipeType,
-        validator: (value) {
-          if (value!.isEmpty) {
-            return "Product Type can't be empty";
-          }
-          return null;
-        },
-        decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Color(0xffe46b10),
-            ),
+    return DropdownButtonFormField(
+      items: data!.map((item) {
+        return new DropdownMenuItem(
+            value: item!.productTypeName,
+            child: Row(
+              children: <Widget>[
+                Icon(Icons.star),
+                Text(item.productTypeName),
+              ],
+            ));
+      }).toList(),
+      onChanged: (value) {
+        // do other stuff with _category
+        setState(() => selectedValue = value.toString());
+      },
+      value: selectedValue,
+      decoration: InputDecoration(
+          contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 20),
+          filled: true,
+          fillColor: Colors.grey[200],
+          //hintText: Localization.of(context).category,
           ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.orange,
-              width: 2,
-            ),
-          ),
-          labelText: "Provide a body for Your Blog",
-        ),
-        maxLines: null,
-      ),
     );
   }
 
@@ -249,7 +313,7 @@ class _AddBlogState extends State<AddBlog> {
               width: 2,
             ),
           ),
-          labelText: "Provide a body for Your Blog",
+          labelText: "Provide a duration for Your Blog",
         ),
         maxLines: null,
       ),
@@ -292,10 +356,21 @@ class _AddBlogState extends State<AddBlog> {
     return InkWell(
       onTap: () async {
         if (_imageFile != null && _globalkey.currentState!.validate()) {
-          AddBlogModel addBlogModel =
-              AddBlogModel(body: _body.text, title: _title.text, productTypeName: '', duration: 0, coverImage: '', id: '', ingredients: '', username: '', procedure: '');
-          var response = await networkHandler.post1(
-              "/product/Add", addBlogModel.toJson());
+          AddBlogModel addBlogModel = AddBlogModel(
+              body: _body.text,
+              title: _title.text,
+              productTypeName: selectedValue,
+              duration: int.parse(_duration.text),
+              coverImage: '',
+              id: '',
+              ingredients: ingredients,
+              username: "@$username",
+              procedure: _procedure.text,
+              isFeatured: _isFeatured,
+              isFavourite: _isFavourite
+              );
+          var response =
+              await networkHandler.post1("/product/Add", addBlogModel.toJson());
           print(response.body);
 
           if (response.statusCode == 200 || response.statusCode == 201) {
@@ -318,7 +393,8 @@ class _AddBlogState extends State<AddBlog> {
           height: 50,
           width: 200,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10), color: Color(0xffe46b10)),
+              borderRadius: BorderRadius.circular(10),
+              color: Color(0xffe46b10)),
           child: Center(
               child: Text(
             "Add Recipe Blog",
@@ -336,5 +412,25 @@ class _AddBlogState extends State<AddBlog> {
       _imageFile = coverPhoto;
       iconphoto = Icons.check_box;
     });
+  }
+   _buildFeaturesField() {
+    return SizedBox(
+      width: 200,
+      child: TextField(
+        controller: _ingredients,
+        keyboardType: TextInputType.text,
+        decoration: InputDecoration(labelText: 'Ingredients'),
+        style: TextStyle(fontSize: 20),
+      ),
+    );
+  }
+
+  _addFeatures(String text) {
+    if (text.isNotEmpty) {
+      setState(() {
+        ingredients.add(text);
+      });
+      _ingredients.clear();
+    }
   }
 }

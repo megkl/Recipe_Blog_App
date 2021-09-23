@@ -5,6 +5,7 @@ import 'package:recipe_blog_app/Model/CategorySuperModel.dart';
 import 'package:recipe_blog_app/Model/addBlogModels.dart';
 import 'package:recipe_blog_app/Model/recipeType.dart';
 import 'package:recipe_blog_app/screens/Blogs/blog.dart';
+import 'package:recipe_blog_app/screens/Blogs/blogsPerCategory.dart';
 import 'package:recipe_blog_app/screens/Categories/recipeType.dart';
 
 import '../../apiHandler.dart';
@@ -50,10 +51,10 @@ class _RecipeCategoriesState extends State<RecipeCategories> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (contex) => RecipeCategory(
-                                          recipeTypeModel: item,
-                                          networkHandler: networkHandler,
-                                        )));
+                                    builder: (contex) => CategoryRecipes(
+                url: "/product/getCategory",
+                recipeCategory : item!.productTypeName,
+              )));
                           },
                           child: CategoryCard(
                             recipeTypeModel: item,
