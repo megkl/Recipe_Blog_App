@@ -8,7 +8,7 @@ class ProfileModel {
   String username;
   String profession;
   String DOB;
-  String titleline;
+  String email;
   String about;
   ProfileModel(
       {
@@ -16,7 +16,7 @@ class ProfileModel {
       required this.about,
       required this.name,
       required this.profession,
-      required this.titleline,
+      required this.email,
       required this.username});
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) =>

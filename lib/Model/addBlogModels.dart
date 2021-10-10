@@ -8,12 +8,14 @@ class AddBlogModel {
   int duration;
   String productTypeName;
   String procedure;
-  String ingredients;
+  List ingredients;
   @JsonKey(name: "_id")
   String id;
   String username;
   String title;
   String body;
+  bool isFeatured;
+  bool isFavourite;
   
   AddBlogModel(
       {
@@ -25,7 +27,10 @@ class AddBlogModel {
       required this.id,
       required this.username,
       required this.body,
-      required this.title});
+      required this.title,
+      required this.isFeatured,
+      required this.isFavourite
+      });
   factory AddBlogModel.fromJson(Map<String, dynamic> json) =>
       _$AddBlogModelFromJson(json);
   Map<String, dynamic> toJson() => _$AddBlogModelToJson(this);

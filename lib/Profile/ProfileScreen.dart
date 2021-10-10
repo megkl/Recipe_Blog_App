@@ -38,7 +38,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffEEEEFF),
-      body: page,
+      body: Center(child: page),
     );
   }
 
@@ -73,7 +73,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               height: 60,
               width: 150,
               decoration: BoxDecoration(
-                color: Colors.blueGrey,
+                color: Color(0xffe46b10),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Center(

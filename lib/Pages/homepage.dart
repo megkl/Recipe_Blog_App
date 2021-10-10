@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:recipe_blog_app/Pages/loginPage.dart';
 import 'package:recipe_blog_app/Profile/ProfileScreen.dart';
 import 'package:recipe_blog_app/screens/Blogs/addBlog.dart';
+import 'package:recipe_blog_app/screens/Blogs/allBlogs.dart';
 import 'package:recipe_blog_app/screens/homeScreen.dart';
 
 import '../apiHandler.dart';
@@ -17,8 +18,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int currentState = 0;
-  List<Widget> widgets = [HomeScreen(), ProfileScreen()];
-  List<String> titleString = ["Aunty Kat Recipe Blog", "Profile Page"];
+  List<Widget> widgets = [HomeScreen(), Blogs(url: "/product/getProducts"), Blogs(url: "/product/getProducts"), ProfileScreen(), ];
+  //List<String> titleString = ["Aunty Kat Recipe Blog","" "Profile Page"];
   final storage = FlutterSecureStorage();
   NetworkHandler networkHandler = NetworkHandler();
   String username = "";
@@ -109,64 +110,88 @@ class _HomePageState extends State<HomePage> {
       //     ],
       //   ),
       // ),
-      // appBar: AppBar(
-      //   backgroundColor: Color(0xffe46b10),
-      //   title: Text(titleString[currentState]),
-      //   centerTitle: true,
-      //   actions: <Widget>[
-      //     IconButton(icon: Icon(Icons.notifications), onPressed: () {}),
-      //   ],
-      // ),
+      
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Color(0xffe46b10),
-        onPressed: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => AddBlog()));
-        },
-        child: Text(
-          "+",
-          style: TextStyle(fontSize: 40),
-        ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        color:  Color(0xffe46b10),
-        shape: CircularNotchedRectangle(),
-        notchMargin: 12,
-        child: Container(
-          height: 60,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.home),
-                  color: currentState == 0 ? Colors.white : Colors.white54,
-                  onPressed: () {
-                    setState(() {
-                      currentState = 0;
-                    });
-                  },
-                  iconSize: 40,
-                ),
-                IconButton(
-                  icon: Icon(Icons.person),
-                  color: currentState == 1 ? Colors.white : Colors.white54,
-                  onPressed: () {
-                    setState(() {
-                      currentState = 1;
-                    });
-                  },
-                  iconSize: 40,
-                )
-              ],
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height*0.1,
+            child: FloatingActionButton(
+              backgroundColor: Color(0xffe46b10),
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => AddBlog()));
+              },
+              child: Text(
+                "+",
+                style: TextStyle(fontSize: 40),
+              ),
             ),
           ),
-        ),
+        ],
       ),
-      body: widgets[currentState],
+      bottomNavigationBar: BottomAppBar(
+          //color:  Color(0xffe46b10),
+          color: Colors.white,
+          shape: CircularNotchedRectangle(),
+          notchMargin: 12,
+          child: Container(
+            height: 60,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  IconButton(
+                    icon: Icon(Icons.home),
+                    color: currentState == 0 ? Color(0xffe46b10) : Colors.black,
+                    onPressed: () {
+                      setState(() {
+                        currentState = 0;
+                      });
+                    },
+                    iconSize: 25,
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.analytics),
+                    color: currentState == 1 ? Color(0xffe46b10) : Colors.black,
+                    onPressed: () {
+                      setState(() {
+                        currentState = 1;
+                      });
+                    },
+                    iconSize: 25,
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.auto_graph),
+                    color: currentState == 2 ?  Color(0xffe46b10) : Colors.black,
+                    onPressed: () {
+                      setState(() {
+                        currentState = 2;
+                      });
+                    },
+                    iconSize: 25,
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.person),
+                    color: currentState == 3 ?  Color(0xffe46b10) : Colors.black,
+                    onPressed: () {
+                      setState(() {
+                        currentState = 3;
+                      });
+                    },
+                    iconSize: 25,
+                  ),
+                ],
+              ),
+            ),
+    ),
+          ),
+          body: widgets[currentState]
     );
+
   }
 
   void logout() async {

@@ -14,7 +14,7 @@ class MainProfile extends StatefulWidget {
 class _MainProfileState extends State<MainProfile> {
   bool circular = true;
   NetworkHandler networkHandler = NetworkHandler();
-  ProfileModel profileModel = ProfileModel(about: '', DOB: '', name: '', profession: '', titleline: '', username: '');
+  ProfileModel profileModel = ProfileModel(about: '', DOB: '', name: '', profession: '', email: '', username: '');
   @override
   void initState() {
     super.initState();
@@ -95,7 +95,7 @@ class _MainProfileState extends State<MainProfile> {
           SizedBox(
             height: 10,
           ),
-          Text(profileModel.titleline)
+          Text(profileModel.email)
         ],
       ),
     );
