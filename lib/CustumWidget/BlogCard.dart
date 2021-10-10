@@ -39,25 +39,28 @@ class BlogCard extends StatelessWidget {
                 )),
             Align(
               alignment: Alignment.topCenter,
-              child: Container(
-                width: MediaQuery.of(context).size.height * 0.25,
-                height: MediaQuery.of(context).size.width * 0.25,
-                decoration: BoxDecoration(
-                  color: Colors.black26,
-                  shape: BoxShape.circle,
-                ),
+              child: Material(
+                elevation: 20,
                 child: Container(
-                  margin: EdgeInsets.only(top: 10),
-                  width: MediaQuery.of(context).size.height * 0.22,
-                  height: MediaQuery.of(context).size.width * 0.22,
+                  width: MediaQuery.of(context).size.height * 0.25,
+                  height: MediaQuery.of(context).size.width * 0.25,
                   decoration: BoxDecoration(
+                    //color: Color(0xffEEEEFF),
                     shape: BoxShape.circle,
-                    image: DecorationImage(
-                        scale: 1,
-                        image: networkHandler.getImage(addBlogModel!.id),
-                        alignment: Alignment.center),
-                    //borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    color: Colors.white,
+                  ),
+                  child: Container(
+                    margin: EdgeInsets.only(top: 10),
+                    width: MediaQuery.of(context).size.height * 0.22,
+                    height: MediaQuery.of(context).size.width * 0.22,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          scale: 1,
+                          image: networkHandler.getImage(addBlogModel!.id),
+                          alignment: Alignment.center),
+                      //borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      color: Colors.transparent,
+                    ),
                   ),
                 ),
               ),

@@ -113,6 +113,10 @@ void getCategories() async {
             SizedBox(
               height: 20,
             ),
+            isFeatured(),
+            SizedBox(
+              height: 20,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -255,7 +259,16 @@ void getCategories() async {
           ),
     );
   }
-
+  Widget isFeatured(){
+    return SwitchListTile(
+    title: const Text('Is Featured?'),
+    value: _isFeatured,
+    onChanged: (bool value) { setState(() { _isFeatured = value; }); },
+    activeTrackColor: Colors.orange,
+          activeColor: Colors.orangeAccent,
+    //secondary: const Icon(Icons.featured_play_list),
+  );
+  }
   Widget ingredientsTextField() {
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -287,20 +300,6 @@ void getCategories() async {
       ),
     );
   }
-
-Widget SwitchField(){
- return Switch(
-          value: _isFeatured,
-          onChanged: (value){
-            setState(() {
-              _isFeatured=value;
-              print(_isFeatured);
-            });
-          },
-          activeTrackColor: Colors.lightGreenAccent,
-          activeColor: Colors.green,
-        );
-}
   Widget durationTextField() {
     return Padding(
       padding: const EdgeInsets.symmetric(
