@@ -72,12 +72,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            Container(
-              padding: EdgeInsets.only(top: 360),
-              child: RecipeBlogs(
-                url: "/product/getProducts",
-              ),
-            ),
+            // ListView(
+            //   children: [
+                Container(
+                  padding: EdgeInsets.only(top: 380),
+                  child: RecipeBlogs(
+                    url: "/product/getProducts",
+                  ),
+                ),
+            //   ],
+            // ),
           ],
         ));
   }

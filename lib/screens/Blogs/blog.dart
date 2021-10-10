@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:recipe_blog_app/Model/addBlogModels.dart';
 import '../../apiHandler.dart';
 
@@ -11,18 +12,18 @@ class RecipeBlog extends StatelessWidget {
   final NetworkHandler networkHandler;
   @override
   Widget build(BuildContext context) {
-    //List<String> ingredients = addBlogModel!.ingredients.split(',');
     List<AddBlogModel> data = [];
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(children: <Widget>[
         Container(
-          height: MediaQuery.of(context).size.height * .6,
+          height: MediaQuery.of(context).size.height * .4,
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
+               color: Color(0xffe46b10),
             image: DecorationImage(
               image: networkHandler.getImage(addBlogModel!.id),
-              fit: BoxFit.fill,
+              fit: BoxFit.contain,
             ),
           ),
         ),
@@ -36,7 +37,7 @@ class RecipeBlog extends StatelessWidget {
               child: Stack(
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(top: 25),
+                    //margin: EdgeInsets.only(top: 0),
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -123,7 +124,7 @@ class RecipeBlog extends StatelessWidget {
                             padding: EdgeInsets.only(
                                 left: 150, top: 10, right: 0, bottom: 0),
                             child: Text(
-                              "Features",
+                              "Ingredients",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,
@@ -150,15 +151,15 @@ class RecipeBlog extends StatelessWidget {
                                           .toList()))
                             ]),
                           ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 24),
-                            child: Text("Read More",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.blueAccent,
-                                  height: 1.5,
-                                )),
-                          ),
+                          // Padding(
+                          //   padding: EdgeInsets.symmetric(horizontal: 24),
+                          //   child: Text("Read More",
+                          //       style: TextStyle(
+                          //         fontWeight: FontWeight.bold,
+                          //         color: Colors.blueAccent,
+                          //         height: 1.5,
+                          //       )),
+                          // ),
                           /*Container(
                         child: _buildLocation(
                           widget.data.positions,
@@ -238,17 +239,28 @@ class RecipeBlog extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 Icon(
-                  Icons.watch,
-                  size: 16,
+                  Icons.alarm,
+                  size: 20,
                   color: Colors.white,
                 ),
-                Text(
-                  addBlogModel!.duration.toString(),
-                  style: TextStyle(color: Colors.white),
-                ),
-                Text(
-                  "min",
-                  style: TextStyle(color: Colors.white, fontSize: 10),
+                SizedBox(width: 7),
+                RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                      text: addBlogModel!.duration.toString(),
+                      style: GoogleFonts.portLligatSans(
+                        textStyle: Theme.of(context).textTheme.display1,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white
+                      ),
+                      children: [
+                        TextSpan(
+                          text: ' mins',
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        ),
+                      ]
+                      ),
                 ),
               ],
             ))

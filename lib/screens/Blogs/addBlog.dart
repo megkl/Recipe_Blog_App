@@ -288,6 +288,19 @@ void getCategories() async {
     );
   }
 
+Widget SwitchField(){
+ return Switch(
+          value: _isFeatured,
+          onChanged: (value){
+            setState(() {
+              _isFeatured=value;
+              print(_isFeatured);
+            });
+          },
+          activeTrackColor: Colors.lightGreenAccent,
+          activeColor: Colors.green,
+        );
+}
   Widget durationTextField() {
     return Padding(
       padding: const EdgeInsets.symmetric(
