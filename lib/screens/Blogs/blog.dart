@@ -14,22 +14,23 @@ class RecipeBlog extends StatelessWidget {
   Widget build(BuildContext context) {
     List<AddBlogModel> data = [];
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xffEEEEFF),
       body: Stack(children: <Widget>[
         Container(
-          height: MediaQuery.of(context).size.height * .4,
+          margin: EdgeInsets.only(top: 0),
+          height: MediaQuery.of(context).size.height * .6,
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
-               color: Color(0xffe46b10),
+            color: Color(0xffe46b10),
             image: DecorationImage(
               image: networkHandler.getImage(addBlogModel!.id),
-              fit: BoxFit.contain,
+              fit: BoxFit.cover,
             ),
           ),
         ),
         DraggableScrollableSheet(
-          initialChildSize: .5,
-          minChildSize: .5,
+          initialChildSize: .6,
+          minChildSize: .6,
           maxChildSize: .8,
           builder: (context, controller) {
             return SingleChildScrollView(
@@ -37,10 +38,10 @@ class RecipeBlog extends StatelessWidget {
               child: Stack(
                 children: <Widget>[
                   Container(
-                    //margin: EdgeInsets.only(top: 0),
+                    margin: EdgeInsets.only(top: 20),
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Color(0xffEEEEFF),
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(25),
                         topRight: Radius.circular(25),
@@ -56,78 +57,58 @@ class RecipeBlog extends StatelessWidget {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.all(24),
-                            child: Text(
-                              addBlogModel!.title,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 30,
-                                color: Colors.black,
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(
+                              child: RichText(
+                                textAlign: TextAlign.center,
+                                text: TextSpan(
+                                  text: addBlogModel!.title,
+                                  style: GoogleFonts.portLligatSans(
+                                    textStyle:
+                                        Theme.of(context).textTheme.display1,
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.w700,
+                                    color: Color(0xffe46b10),
+                                  ),
+                                ),
                               ),
                             ),
                           ),
                           Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 24),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 24, vertical: 10),
                               child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[])),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                /* _buildWidgetSize(
-                                       "Living Room",
-                                       widget.data.sizeLivingRoom,
-                                     ),
-                                     Container(
-                                       width: 1,
-                                       height: 50,
-                                       color: Colors.black38,
-                                     ),
-                                     _buildWidgetSize(
-                                       "Bed Room",
-                                       widget.data.sizeBedRoom,
-                                     ),
-                                     Container(
-                                       width: 1,
-                                       height: 50,
-                                       color: Colors.black38,
-                                     ),
-                                     _buildWidgetSize(
-                                       "BathRoom",
-                                       widget.data.sizeBathRoom,
-                                     ),
-                                     Container(
-                                       width: 1,
-                                       height: 50,
-                                       color: Colors.black38,
-                                     ),*/
-                              ],
-                            ),
-                          ),
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(Icons.alarm),
+                                    SizedBox(width: 5),
+                                    Text(addBlogModel!.duration.toString()),
+                                    Text(" mins"),
+                                    SizedBox(width: 20),
+                                    Icon(Icons.favorite, color: Colors.red),
+                                    Text(" 20 likes")
+                                  ])),
                           SizedBox(height: 24),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 24),
-                            child: Text(
-                              addBlogModel!.body,
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                height: 1.5,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: 150, top: 10, right: 0, bottom: 0),
+                          // Padding(
+                          //   padding: EdgeInsets.symmetric(horizontal: 24),
+                          //   child: Text(
+                          //     addBlogModel!.body,
+                          //     maxLines: 3,
+                          //     overflow: TextOverflow.ellipsis,
+                          //     style: TextStyle(
+                          //       height: 1.5,
+                          //       color: Colors.black,
+                          //     ),
+                          //   ),
+                          // ),
+                          Center(
                             child: Text(
                               "Ingredients",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
+                              style: GoogleFonts.portLligatSans(
+                                textStyle: Theme.of(context).textTheme.display1,
+                                fontSize: 25,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xffe46b10),
                               ),
                             ),
                           ),
@@ -136,30 +117,62 @@ class RecipeBlog extends StatelessWidget {
                             padding: EdgeInsets.symmetric(horizontal: 24),
                             child: Wrap(children: <Widget>[
                               Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      color: Colors.transparent),
-                                  child: Row(
-                                      children: addBlogModel!.ingredients
-                                          .map((item) => Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Container(
-                                                    color: Colors.blueAccent,
-                                                    child: new Text(item)),
-                                              ))
-                                          .toList()))
+                                  child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: addBlogModel!.ingredients
+                                        .map(
+                                          (item) => Padding(
+                                              padding:
+                                                  const EdgeInsets.all(6.0),
+                                              child: Container(
+                                                height: 110,
+                                                width: 80,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            40)),
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(Icons.food_bank, color: Color(0xffe46b10)),
+                                                    Card(
+                                                        elevation: 0,
+                                                        color: Colors.transparent,
+                                                        child: Center(
+                                                            child: Text(item))),
+                                                  ],
+                                                ),
+                                              )),
+                                        )
+                                        .toList()),
+                              ))
                             ]),
                           ),
-                          // Padding(
-                          //   padding: EdgeInsets.symmetric(horizontal: 24),
-                          //   child: Text("Read More",
-                          //       style: TextStyle(
-                          //         fontWeight: FontWeight.bold,
-                          //         color: Colors.blueAccent,
-                          //         height: 1.5,
-                          //       )),
-                          // ),
+                          Center(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 24,vertical: 20),
+                              child: Text("Procedure",
+                                   style: GoogleFonts.portLligatSans(
+                                  textStyle: Theme.of(context).textTheme.display1,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color(0xffe46b10),
+                                  )),
+                            ),
+                          ),
+                           Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 24,vertical: 10),
+                              child: Text(addBlogModel!.procedure,
+                                   style: GoogleFonts.portLligatSans(
+                                  textStyle: Theme.of(context).textTheme.display1,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.black,
+                                  )),
+                            ),
                           /*Container(
                         child: _buildLocation(
                           widget.data.positions,
@@ -249,165 +262,20 @@ class RecipeBlog extends StatelessWidget {
                   text: TextSpan(
                       text: addBlogModel!.duration.toString(),
                       style: GoogleFonts.portLligatSans(
-                        textStyle: Theme.of(context).textTheme.display1,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white
-                      ),
+                          textStyle: Theme.of(context).textTheme.display1,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white),
                       children: [
                         TextSpan(
                           text: ' mins',
                           style: TextStyle(color: Colors.white, fontSize: 18),
                         ),
-                      ]
-                      ),
+                      ]),
                 ),
               ],
             ))
       ]),
-      // bottomNavigationBar: Container(
-      //   child: RaisedButton(
-      //     onPressed: () {
-      //       customLaunch('tel:${widget.properties.sellerPhoneNumber}');
-      //     },
-      //     textColor: Colors.white,
-      //     padding: const EdgeInsets.all(10.0),
-      //     child: Container(
-      //       decoration: const BoxDecoration(
-      //         borderRadius: BorderRadius.all(Radius.circular(50.0)),
-      //         gradient: LinearGradient(
-      //           colors: <Color>[
-      //             Color(0xFF0D47A1),
-      //             Color(0xFF1976D2),
-      //             Color(0xFF42A5F5),
-      //           ],
-      //         ),
-      //       ),
-      //       padding: const EdgeInsets.all(10.0),
-      //       child: const Text('Contact Property Owner'),
-      //     ),
-      //   ),
-      // ),
     );
-    // return Scaffold(
-    //   body: ListView(
-    //     children: [
-    //       Container(
-    //         height: 365,
-    //         width: MediaQuery.of(context).size.width,
-    //         child: Card(
-    //           elevation: 8,
-    //           child: Column(
-    //             children: [
-    //               Container(
-    //                 height: 230,
-    //                 width: MediaQuery.of(context).size.width,
-    //                 decoration: BoxDecoration(
-    //                   image: DecorationImage(
-    //                     image: networkHandler.getImage(addBlogModel!.id),
-    //                     fit: BoxFit.fill,
-    //                   ),
-    //                 ),
-    //               ),
-    //               Padding(
-    //                 padding: const EdgeInsets.symmetric(
-    //                     horizontal: 20, vertical: 10),
-    //                 child: Text(
-    //                   addBlogModel!.title,
-    //                   style: TextStyle(
-    //                     fontSize: 16,
-    //                     fontWeight: FontWeight.bold,
-    //                   ),
-    //                 ),
-    //               ),
-    //                Padding(
-    //                 padding: const EdgeInsets.symmetric(
-    //                     horizontal: 20, vertical: 10),
-    //                 child: Text(
-    //                   addBlogModel!.productTypeName,
-    //                   style: TextStyle(
-    //                     fontSize: 16,
-    //                     fontWeight: FontWeight.bold,
-    //                   ),
-    //                 ),
-    //               ),
-    //               Padding(
-    //                 padding: const EdgeInsets.symmetric(
-    //                     horizontal: 20, vertical: 10),
-    //                 child: Column(
-    //                   children: [
-    //                     Icon(
-    //                       Icons.chat_bubble,
-    //                       size: 18,
-    //                     ),
-    //                     SizedBox(
-    //                       width: 5,
-    //                     ),
-    //                     Text(
-    //                       addBlogModel!.procedure.toString(),
-    //                       style: TextStyle(fontSize: 15),
-    //                     ),
-    //                     SizedBox(
-    //                       width: 15,
-    //                     ),
-    //                     Icon(
-    //                       Icons.thumb_up,
-    //                       size: 18,
-    //                     ),
-    //                     SizedBox(
-    //                       width: 8,
-    //                     ),
-    //                     Text(
-    //                       addBlogModel!.duration.toString(),
-    //                       style: TextStyle(fontSize: 15),
-    //                     ),
-    //                     SizedBox(
-    //                       width: 8,
-    //                     ),
-    //                     Padding(
-    //                             padding: EdgeInsets.only(left: 150, top: 10, right: 0, bottom: 0),
-    //                             child: Text(
-    //                               "Features",
-    //                               style: TextStyle(
-    //                                 fontWeight: FontWeight.bold,
-    //                                 fontSize: 20,
-    //                               ),),
-    //                           ),
-    //                           SizedBox(height: 50),
-    //                     Container(
-    //                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: Colors.transparent),
-    //                       child: Row(
-    //                         children: addBlogModel!.ingredients.map((item) => Padding(
-    //                           padding: const EdgeInsets.all(8.0),
-    //                           child: Container(
-    //                             color: Colors.blueAccent,
-    //                             child: new Text(item)),
-    //                         )).toList()))
-    //                   ],
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //         ),
-    //       ),
-    //       SizedBox(
-    //         height: 10,
-    //       ),
-    //       Container(
-    //         width: MediaQuery.of(context).size.width,
-    //         child: Card(
-    //           elevation: 15,
-    //           child: Padding(
-    //             padding: EdgeInsets.symmetric(
-    //               horizontal: 10,
-    //               vertical: 15,
-    //             ),
-    //             child: Text(addBlogModel!.body),
-    //           ),
-    //         ),
-    //       ),
-    //     ],
-    //   ),
-    //);
   }
 }
