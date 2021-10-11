@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recipe_blog_app/Model/addBlogModels.dart';
 
@@ -16,51 +17,61 @@ class BlogcategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
-      padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+      height: MediaQuery.of(context).size.height*0.13,
+      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       width: MediaQuery.of(context).size.width,
-      child: Card(
-        elevation: 0.0,
-        color: Colors.white,
-        child: Stack(
+      color: Color(0xffEEEEFF),
+      child: Stack(
           children: <Widget>[
-//             Container(
-//               child: ListTile(
-//                 title: Text(addBlogModel!.title),
-//                 trailing: Container(
-//                   decoration: BoxDecoration(
-//                     image: DecorationImage(
-//                       image: networkHandler.getImage(addBlogModel!.id),
-//                       fit: BoxFit.contain,
-//                       scale: 0.01
-//                       )),),
-// subtitle: Text(addBlogModel!.body),
-//                 ),
-//             )
             Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                // image: DecorationImage(
-                //     image: networkHandler.getImage(addBlogModel!.id),
-                //     fit: BoxFit.cover),
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white
               ),
               child: Card(
+                elevation: 0,
+                //color: Colors.transparent,
+                child: Center(
                   child: ListTile(
-                title: Text(addBlogModel!.title),
-                subtitle: Text(addBlogModel!.body),
-                leading: CircleAvatar(
-                  radius: 18,
-                  backgroundImage: networkHandler.getImage(addBlogModel!.id),
+                  title: _title(),
+                  subtitle:  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("How to make ${addBlogModel!.title} in ${addBlogModel!.duration.toString()} mins"),
+                      
+                    ],
                   ),
-                trailing:  Text("${addBlogModel!.duration.toString()} min"),
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 40,
+                    backgroundImage: networkHandler.getImage(addBlogModel!.id),
+                    ),
+                  trailing:  Icon(Icons.arrow_forward_sharp, color: Colors.black)
+                  ),
                 ),
               )),
             
           ],
         ),
-      ),
     );
   }
+  Widget _title() {
+    return RichText(
+      textAlign: TextAlign.left,
+      text: TextSpan(
+          text: addBlogModel!.title,
+          style: GoogleFonts.portLligatSans(
+            //textStyle: Theme.of(context).textTheme.display1,
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            color: Color(0xffe46b10),
+          ),
+          ),
+    );
+  }
+
 }

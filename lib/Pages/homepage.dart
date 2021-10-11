@@ -5,6 +5,7 @@ import 'package:recipe_blog_app/Pages/loginPage.dart';
 import 'package:recipe_blog_app/Profile/ProfileScreen.dart';
 import 'package:recipe_blog_app/screens/Blogs/addBlog.dart';
 import 'package:recipe_blog_app/screens/Blogs/allBlogs.dart';
+import 'package:recipe_blog_app/screens/Blogs/favoriteBlogs.dart';
 import 'package:recipe_blog_app/screens/homeScreen.dart';
 
 import '../apiHandler.dart';
@@ -18,7 +19,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int currentState = 0;
-  List<Widget> widgets = [HomeScreen(), Blogs(url: "/product/getProducts"), Blogs(url: "/product/getProducts"), ProfileScreen(), ];
+  List<Widget> widgets = [HomeScreen(), Blogs(url: "/product/getProducts"), FavouriteBlogs(url: "/product/getProducts"), ProfileScreen(), ];
   //List<String> titleString = ["Aunty Kat Recipe Blog","" "Profile Page"];
   final storage = FlutterSecureStorage();
   NetworkHandler networkHandler = NetworkHandler();
@@ -165,7 +166,7 @@ class _HomePageState extends State<HomePage> {
                     iconSize: 25,
                   ),
                   IconButton(
-                    icon: Icon(Icons.auto_graph),
+                    icon: Icon(Icons.favorite),
                     color: currentState == 2 ?  Color(0xffe46b10) : Colors.black,
                     onPressed: () {
                       setState(() {

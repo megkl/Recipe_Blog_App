@@ -23,24 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
   @override
   Widget build(BuildContext context) {
-    var carouselSlider = CarouselSlider.builder(
-      itemCount: carouselimages.length,
-      itemBuilder: (BuildContext context, int itemIndex) => Container(
-        child: Image.asset(
-          carouselimages[itemIndex],
-          fit: BoxFit.fill,
-          width: double.infinity,
-        ),
-      ),
-      options: CarouselOptions(
-        autoPlay: true,
-        enlargeCenterPage: true,
-        viewportFraction: 0.9,
-        aspectRatio: 1.0,
-        initialPage: 0,
-      ),
-    );
-
     return Scaffold(
         backgroundColor: Color(0xffEEEEFF),
         body: Stack(
