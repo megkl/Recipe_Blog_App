@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:recipe_blog_app/CustumWidget/BlogCard.dart';
 import 'package:recipe_blog_app/CustumWidget/CategoryCard.dart';
 import 'package:recipe_blog_app/Model/CategorySuperModel.dart';
@@ -11,7 +12,7 @@ import 'package:recipe_blog_app/screens/Categories/recipeType.dart';
 import '../../apiHandler.dart';
 
 class RecipeCategories extends StatefulWidget {
-  const RecipeCategories({ Key? key, required this.url }) : super(key: key);
+  const RecipeCategories({Key? key, required this.url}) : super(key: key);
   final String url;
 
   @override
@@ -19,7 +20,7 @@ class RecipeCategories extends StatefulWidget {
 }
 
 class _RecipeCategoriesState extends State<RecipeCategories> {
-   NetworkHandler networkHandler = NetworkHandler();
+  NetworkHandler networkHandler = NetworkHandler();
   CategorySuperModel categorySuperModel = CategorySuperModel();
   List<RecipeTypeModel?>? data = [];
 
@@ -37,14 +38,15 @@ class _RecipeCategoriesState extends State<RecipeCategories> {
       data = categorySuperModel.data;
     });
   }
-   @override
+
+  @override
   Widget build(BuildContext context) {
     return data!.length > 0
         ? ListView(
-         scrollDirection: Axis.horizontal,
-         padding: EdgeInsets.only(left: 10),
-            children: data
-                !.map((item) => Column(
+            scrollDirection: Axis.horizontal,
+            padding: EdgeInsets.only(left: 10),
+            children: data!
+                .map((item) => Column(
                       children: <Widget>[
                         InkWell(
                           onTap: () {
@@ -52,9 +54,9 @@ class _RecipeCategoriesState extends State<RecipeCategories> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (contex) => CategoryRecipes(
-                url: "/product/getCategory",
-                recipeCategory : item!.productTypeName,
-              )));
+                                          url: "/product/getCategory",
+                                          recipeCategory: item!.productTypeName,
+                                        )));
                           },
                           child: CategoryCard(
                             recipeTypeModel: item,
@@ -66,7 +68,14 @@ class _RecipeCategoriesState extends State<RecipeCategories> {
                 .toList(),
           )
         : Center(
-            child: Text("We don't have any categories Yet"),
-          );
+            child: Text(
+            "We don't have any categories Yet",
+            style: GoogleFonts.portLligatSans(
+              textStyle: Theme.of(context).textTheme.display1,
+              fontSize: 25,
+              fontWeight: FontWeight.w700,
+              color: Color(0xffe46b10),
+            ),
+          ));
   }
 }

@@ -1,42 +1,26 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:recipe_blog_app/CustumWidget/BlogCard.dart';
 import 'package:recipe_blog_app/CustumWidget/BlogPerCategoryCard.dart';
 import 'package:recipe_blog_app/Model/SuperModel.dart';
 import 'package:recipe_blog_app/Model/addBlogModels.dart';
-import 'package:recipe_blog_app/screens/Blogs/blog.dart';
-import 'package:carousel_pro/carousel_pro.dart';
+import 'package:recipe_blog_app/screens/blogs/blog.dart';
+
 import '../../apiHandler.dart';
 
-class CategoryRecipes extends StatefulWidget {
-  const CategoryRecipes(
-      {Key? key, required this.url, required this.recipeCategory})
-      : super(key: key);
+class FavouriteBlogs extends StatefulWidget {
+  FavouriteBlogs({Key? key, required this.url}) : super(key: key);
   final String url;
-  final String recipeCategory;
+
   @override
-  _CategoryRecipesState createState() => _CategoryRecipesState();
+  _FavouriteBlogsState createState() => _FavouriteBlogsState();
 }
 
-class _CategoryRecipesState extends State<CategoryRecipes> {
+class _FavouriteBlogsState extends State<FavouriteBlogs> {
   NetworkHandler networkHandler = NetworkHandler();
   SuperModel superModel = SuperModel();
-  //AddBlogModel addBlogModel = AddBlogModel(body: '', coverImage: '', duration: 0, id: '', ingredients: '', procedure: '', productTypeName: '', title: '', username: '');
-  final AddBlogModel? addBlogModel = AddBlogModel(
-      body: '',
-      coverImage: '',
-      duration: 0,
-      id: '',
-      ingredients: [],
-      procedure: '',
-      productTypeName: '',
-      title: '',
-      isFavourite: false,
-      isFeatured: false,
-      username: '');
   List<AddBlogModel?>? data = [];
-  int _currentIndex = 0;
 
   @override
   void initState() {
@@ -46,8 +30,7 @@ class _CategoryRecipesState extends State<CategoryRecipes> {
   }
 
   void fetchData() async {
-    var response =
-        await networkHandler.get(widget.url + "/${widget.recipeCategory}");
+    var response = await networkHandler.get(widget.url);
     superModel = SuperModel.fromJson(response);
     setState(() {
       data = superModel.data;
@@ -64,9 +47,14 @@ class _CategoryRecipesState extends State<CategoryRecipes> {
         children: [
           _title(),
           SizedBox(height: 20),
+          Padding(
+              padding: const EdgeInsets.only(top: 45),
+              child: buildFloatingSearchBar(),
+            ),
+            SizedBox(height: 20),
           data!.length > 0
                 ? Padding(
-                  padding: const EdgeInsets.only(top: 50),
+                  padding: const EdgeInsets.only(top: 120),
                   child: ListView(
                       children: data!
                           .map((item) => Column(
@@ -98,11 +86,11 @@ class _CategoryRecipesState extends State<CategoryRecipes> {
                     ),
                 )
                 : Center(
-                    child: Text("We don't have any recipe category blogs Yet",style: GoogleFonts.portLligatSans(
+                    child: Text("We don't have any recipe category Favourite Blogs Yet",style: GoogleFonts.portLligatSans(
                     textStyle: Theme.of(context).textTheme.display1,
                     fontSize: 25,
                     fontWeight: FontWeight.w700,
-                    color: Color(0xffe46b10),),
+                    color: Color(0xffe46b10)),
                 )),
         ],
       ),
@@ -115,7 +103,7 @@ class _CategoryRecipesState extends State<CategoryRecipes> {
       child: RichText(
         textAlign: TextAlign.center,
         text: TextSpan(
-            text: widget.recipeCategory,
+            text:"Favourite Recipes",
             style: GoogleFonts.tangerine(
               textStyle: Theme.of(context).textTheme.display1,
               fontSize: 30,
@@ -124,6 +112,68 @@ class _CategoryRecipesState extends State<CategoryRecipes> {
             ),
             ),
       ),
+    );
+  }
+ Widget buildFloatingSearchBar() {
+    final actions = [
+      FloatingSearchBarAction(
+        showIfOpened: false,
+        child: CircularButton(
+          icon: const Icon(Icons.search),
+          onPressed: () {},
+        ),
+      ),
+      FloatingSearchBarAction.searchToClear(
+        showIfClosed: false,
+      ),
+    ];
+
+    final isPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+
+    return FloatingSearchBar(
+      hint: 'Search...',
+      scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
+      transitionDuration: const Duration(milliseconds: 800),
+      transitionCurve: Curves.easeInOut,
+      physics: const BouncingScrollPhysics(),
+      axisAlignment: isPortrait ? 0.0 : -1.0,
+      openAxisAlignment: 0.0,
+      width: isPortrait ? 600 : 500,
+      debounceDelay: const Duration(milliseconds: 500),
+      onQueryChanged: (query) {
+        // Call your model, bloc, controller here.
+      },
+      // Specify a custom transition to be used for
+      // animating between opened and closed stated.
+      transition: CircularFloatingSearchBarTransition(),
+      actions: [
+        FloatingSearchBarAction(
+          showIfOpened: false,
+          child: CircularButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {},
+          ),
+        ),
+        FloatingSearchBarAction.searchToClear(
+          showIfClosed: false,
+        ),
+      ],
+      builder: (context, transition) {
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Material(
+            color: Colors.white,
+            elevation: 4.0,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: Colors.accents.map((color) {
+                return Container(height: 112, color: color);
+              }).toList(),
+            ),
+          ),
+        );
+      },
     );
   }
 }
